@@ -15,11 +15,11 @@ class ListaCandidatos {
  	int cont;
  	NoCandidato * auxHead;
 
-    /*
+    
     ListaCandidatos() {//contrutor
         head = NULL;
 
-    }*/
+    }
 
     ListaCandidatos(string nomeDoArquivo) {//construtor
         head = NULL;
