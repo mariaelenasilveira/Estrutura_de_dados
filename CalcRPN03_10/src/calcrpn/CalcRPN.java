@@ -14,6 +14,7 @@ public class CalcRPN {
     
     public CalcRPN() {
         aPilha = new Pilha<>();
+        hist = new Pilha<>();
     }
     
     void mais() {
@@ -21,7 +22,7 @@ public class CalcRPN {
         Double b = aPilha.desempilha();
         Double resultado = b + a;
         aPilha.empilha(resultado);
-        //hist.esmpilha(new operacao(.....));
+        hist.empilha(new Operacao('+', b, a));
     }
     
     void menos(){
@@ -29,7 +30,7 @@ public class CalcRPN {
         Double b = aPilha.desempilha();
         Double resultado = b - a;
         aPilha.empilha(resultado);
-        //hist.esmpilha(new operacao(.....));
+        hist.empilha(new Operacao('-', b, a));
     }
     
     void vezes() {
@@ -37,7 +38,7 @@ public class CalcRPN {
         Double b = aPilha.desempilha();
         Double resultado = b * a;
         aPilha.empilha(resultado);
-        //hist.esmpilha(new operacao(.....));
+        hist.empilha(new Operacao('*', b, a));
     }
     
     void dividido() {
@@ -45,7 +46,7 @@ public class CalcRPN {
         Double b = aPilha.desempilha();
         Double resultado = b / a;
         aPilha.empilha(resultado);
-        //hist.desempilha(new operacao(.....));
+        hist.empilha(new Operacao('/', b, a));
     }
     
     public Double resultado() {
@@ -61,29 +62,43 @@ public class CalcRPN {
         
         if (cmd.equals("+")) {
             mais();
-            System.out.println(resultado());
         } else if (cmd.equals("-")) {
             menos();
-            System.out.println(resultado());
         } else if (cmd.equals("*")) {
             vezes();
-            System.out.println(resultado());
         } else if (cmd.equals("/")) {
             dividido();
-            System.out.println(resultado());
         }  else if (cmd.equals("clear")) {
             aPilha.reinicialize();
-            //System.out.println(resultado());
+            hist.reinicialize();
+        }  else if (cmd.equals("undo")) {
+            cancela();
+            System.out.println("Historico = " + hist.toStringInverse());
+        }  else if (cmd.equals("hist")) {
+            System.out.println("Historico = " + hist.toStringInverse());
         } else {
             aPilha.empilha(Double.parseDouble(cmd));
+            Operacao o = new Operacao(Double.parseDouble(cmd));
+            hist.empilha(o);
         }
         
     }
-    
-    //void cancela() {
-        
-    //}
-    /*
+ 
+    void cancela() {
+        if (!aPilha.estaVazia()) {
+            if (hist.topo().code == 'e') {
+                hist.desempilha();
+                aPilha.desempilha();
+            } else {
+                aPilha.desempilha();
+                aPilha.empilha(hist.topo().b);
+                hist.desempilha();
+                aPilha.empilha(hist.topo().a);
+            }
+        }
+    }
+  
+    /*  
     static void test() {
         CalcRPN calc = new CalcRPN() ;
         System.out.print("3 2 + = ");
@@ -123,26 +138,10 @@ public class CalcRPN {
         calc.menos();
         calc.vezes();
         System.out.println(calc.resultado());
-    }
-
-    static void interfaceUsuario() throws IOException {
-        CalcRPN calc = new CalcRPN() ;
-        String line;
-        BufferedReader reader = new BufferedReader
-        (new InputStreamReader (System.in));
-        while((line = reader.readLine()) != null) {
-            if (line.isEmpty())
-                continue;
-            for (String s : line.split(" "))
-                calc.exec(s);
-            System.out.println("Pilha = " + calc.aPilha);
-        }
-        System.out.println("Até logo");
     }*/
     
     public static void main (String[] args) throws IOException {
         CalcRPN calc = new CalcRPN() ;
-        System.out.println("Pilha = " + calc.aPilha);
         String line;
         BufferedReader reader = new BufferedReader
         (new InputStreamReader (System.in));

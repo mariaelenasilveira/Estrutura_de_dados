@@ -33,6 +33,19 @@ public class Pilha<T>{ // generica
     void reinicialize(){
         conteudo.clear();
     }
+    
+    public String toStringInverse(){
+        String tmp = "[";
+        for(int i = conteudo.size() - 1; i >=0; i--){
+            tmp += conteudo.get(i).toString();
+            if (i != 0) 
+                tmp += ",";
+        }
+        tmp += "]";
+        return tmp;
+    }
+    
+    
     /*
     public String toStringInverse() {
 		String s = "[";
