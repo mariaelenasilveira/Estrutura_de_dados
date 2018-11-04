@@ -44,21 +44,6 @@ public class Pilha<T>{ // generica
         tmp += "]";
         return tmp;
     }
-    
-    
-    /*
-    public String toStringInverse() {
-		String s = "[";
-		for (int i = this.conteudo.size() - 1; i >= 0; i--) {
-			s += this.conteudo.get(i).toString();
-			if (i != 0) {
-				s += ", ";
-			}
-		}
-		s += "]";
-
-		return s;
-	}
 
     /*
     static void test1() {
